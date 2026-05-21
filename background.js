@@ -1,4 +1,4 @@
-var FolderName = "Udemy Download/";
+var FolderName = "";
 var Downloads = [];
 var load = {};
 var course = {};
@@ -116,13 +116,16 @@ var Application = {
           };
           var VideoDetails;
           VideoDetails = Application.uGetApi(temp, {"Current" : i});
-          video.base.push( {
-              "id" : v.id,
-              "VideoUrl" : VideoDetails.asset.stream_urls.Video[0].file,
-              "VideoTitle" : v.object_index + ". " + v.title,
-              "VideoThumbnail" : ((VideoDetails.asset.thumbnail_sprite != null) ? VideoDetails.asset.thumbnail_sprite.img_url : ""),
-              "VideoQuality" : VideoDetails.asset.stream_urls.Video[0].label
-          });
+          if (VideoDetails && VideoDetails.asset && VideoDetails.asset.stream_urls &&
+              VideoDetails.asset.stream_urls.Video && VideoDetails.asset.stream_urls.Video.length > 0) {
+              video.base.push( {
+                  "id" : v.id,
+                  "VideoUrl" : VideoDetails.asset.stream_urls.Video[0].file,
+                  "VideoTitle" : v.object_index + ". " + v.title,
+                  "VideoThumbnail" : ((VideoDetails.asset.thumbnail_sprite != null) ? VideoDetails.asset.thumbnail_sprite.img_url : ""),
+                  "VideoQuality" : VideoDetails.asset.stream_urls.Video[0].label
+              });
+          }
           i++;
       })
 
